@@ -87,6 +87,9 @@
          %% if true, don't fail if kcl encounters child shards with open parents, which
          %% can occur when processing dynamo streams on very large tables (requires
          %% patched KCL):
-         {ignore_unexpected_child_shards, false}
+         {ignore_unexpected_child_shards, false},
+
+         %% path to KCL properties file. default is priv/mld.properties.in:
+         {properties_file_path, undefined}
         ]}
  ]}.

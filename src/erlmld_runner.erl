@@ -80,7 +80,7 @@ tempdir_path(Filename) ->
 %% like "$TMPDIR/erlmld/erlmld.X.properties", where X is either "default" or the
 %% app_suffix value, and return that populated pathname.
 build_properties(#{app_suffix := AppSuffix} = Opts) ->
-    Input = priv_path("mld.properties.in"),
+    Input = properties_file_path(Opts),
     Output = tempdir_path("erlmld." ++ atom_to_list(case AppSuffix of
                                                         undefined -> default;
                                                         _ -> AppSuffix
@@ -90,6 +90,12 @@ build_properties(#{app_suffix := AppSuffix} = Opts) ->
     ok = filelib:ensure_dir(Output),
     ok = file:write_file(Output, Result),
     {ok, Output}.
+
+
+properties_file_path(#{properties_file_path := Path}) when Path /= undefined ->
+    Path;
+properties_file_path(_) ->
+    priv_path("mld.properties.in").
 
 
 %% given a binary template and a map of options, use the map to apply substitutions into
